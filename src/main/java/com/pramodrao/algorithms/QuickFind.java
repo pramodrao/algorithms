@@ -7,7 +7,7 @@ import java.util.*;
  */
 public class QuickFind {
 
-    public int[] entries;
+    private int[] entries;
     private int numElements;
 
     QuickFind(int n) {
@@ -27,23 +27,22 @@ public class QuickFind {
     }
 
     private boolean connected(int p, int q) {
-        if ( entries[p] == entries[q]) return true;
-        return false;
+        return entries[p] == entries[q];
     }
 
     public static void main(String[] args) {
 
         Scanner scanner = new Scanner(System.in);
         System.out.println("Please enter number of elements.");
-        int numElements = Integer.valueOf(scanner.next());
+        int numElements = Integer.parseInt(scanner.next());
         QuickFind qf = new QuickFind(numElements);
 
         System.out.println("Please enter the connections, separated by commas. Enter 'done' when finished.");
         while (scanner.hasNext("[0-9]{1,2},[0-9]*")) {
             String connection = scanner.next();
             String[] elements = connection.split(",");
-            int start = Integer.valueOf(elements[0]);
-            int end = Integer.valueOf(elements[1]);
+            int start = Integer.parseInt(elements[0]);
+            int end = Integer.parseInt(elements[1]);
 
             if ( qf.connected(start, end)) System.out.println("Already connected.");
             else {
@@ -54,11 +53,10 @@ public class QuickFind {
         Map<Integer, String> componentsM = new HashMap<Integer, String>();
         for ( int i = 0; i < numElements; i++ ) {
             int key = qf.entries[i];
-            int val = i;
-            String value = "";
+            String value;
             if ( componentsM.containsKey(key)) {
-                value = componentsM.get(key) +":" +val;
-            } else value = String.valueOf(val);
+                value = componentsM.get(key) +":" +i;
+            } else value = String.valueOf(i);
             componentsM.put(key, value);
         }
 
