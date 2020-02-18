@@ -22,7 +22,7 @@ public class QuickFind {
         int startVal = entries[p];
         int endVal = entries[q];
         for ( int i = 0; i < numElements; i++ ) {
-            if ( entries[i] == endVal ) entries[i] = startVal;
+            if ( entries[i] == startVal ) entries[i] = endVal;
         }
     }
 

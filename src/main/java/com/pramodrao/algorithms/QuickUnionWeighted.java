@@ -9,19 +9,31 @@ import java.util.Scanner;
 /**
  * @author pramod.rao
  */
-public class QuickUnion {
+public class QuickUnionWeighted {
 
     private int[] entries;
+    private int[] numNodes;
 
-    QuickUnion(int n) {
+    QuickUnionWeighted(int n) {
         entries = new int[n];
+        numNodes = new int[n];
         for ( int i = 0; i < n; i++ ) {
             entries[i] = i;
+            numNodes[i] = 1;
         }
     }
 
-    private void union(int p, int q) {
-        entries[findRoot(p)] = findRoot(q);
+    private void weightedUnion(int p, int q) {
+
+        int pRoot = findRoot(p);
+        int qRoot = findRoot(q);
+        if ( numNodes[p] < numNodes[q] ) {
+            entries[pRoot] = qRoot;
+            numNodes[qRoot] += numNodes[pRoot];
+        } else {
+            entries[qRoot] = pRoot;
+            numNodes[pRoot] += numNodes[qRoot];
+        }
     }
 
     private boolean connected(int p, int q) {
@@ -30,10 +42,11 @@ public class QuickUnion {
     }
 
     private int findRoot(int p) {
-        while ( entries[p] != p ) {
-            p = entries[p];
+        int root = entries[p];
+        while ( entries[root] != root ) {
+            root = entries[root];
         }
-        return p;
+        return root;
     }
 
     private void plotGraph() {
@@ -61,7 +74,7 @@ public class QuickUnion {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Please enter number of elements.");
         int numElements = Integer.parseInt(scanner.next());
-        QuickUnion quickUnion = new QuickUnion(numElements);
+        QuickUnionWeighted quickUnion = new QuickUnionWeighted(numElements);
 
         System.out.println("Please enter the connections, separated by commas. Enter 'done' when finished.");
         while (scanner.hasNext("[0-9]{1,2},[0-9]*")) {
@@ -72,7 +85,7 @@ public class QuickUnion {
 
             if ( quickUnion.connected(start, end)) System.out.println("Already connected.");
             else {
-                quickUnion.union(start, end);
+                quickUnion.weightedUnion(start, end);
             }
         }
 
