@@ -1,4 +1,4 @@
-package com.pramodrao.algorithms;
+package com.pramodrao.algorithms.week1;
 
 import org.graphstream.graph.Graph;
 import org.graphstream.graph.Node;
@@ -9,11 +9,11 @@ import java.util.Scanner;
 /**
  * @author pramod.rao
  */
-public class QuickUnion {
+public class QuickUnionPathCompression {
 
     private int[] entries;
 
-    QuickUnion(int n) {
+    QuickUnionPathCompression(int n) {
         entries = new int[n];
         for ( int i = 0; i < n; i++ ) {
             entries[i] = i;
@@ -31,6 +31,7 @@ public class QuickUnion {
 
     private int findRoot(int p) {
         while ( entries[p] != p ) {
+            entries[p] = entries[entries[p]];
             p = entries[p];
         }
         return p;
@@ -61,7 +62,7 @@ public class QuickUnion {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Please enter number of elements.");
         int numElements = Integer.parseInt(scanner.next());
-        QuickUnion quickUnion = new QuickUnion(numElements);
+        QuickUnionPathCompression quickUnion = new QuickUnionPathCompression(numElements);
 
         System.out.println("Please enter the connections, separated by commas. Enter 'done' when finished.");
         while (scanner.hasNext("[0-9]{1,2},[0-9]*")) {

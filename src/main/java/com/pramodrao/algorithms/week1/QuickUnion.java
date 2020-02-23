@@ -1,4 +1,4 @@
-package com.pramodrao.algorithms;
+package com.pramodrao.algorithms.week1;
 
 import org.graphstream.graph.Graph;
 import org.graphstream.graph.Node;
@@ -9,31 +9,19 @@ import java.util.Scanner;
 /**
  * @author pramod.rao
  */
-public class QuickUnionWPC {
+public class QuickUnion {
 
     private int[] entries;
-    private int[] numNodes;
 
-    QuickUnionWPC(int n) {
+    QuickUnion(int n) {
         entries = new int[n];
-        numNodes = new int[n];
         for ( int i = 0; i < n; i++ ) {
             entries[i] = i;
-            numNodes[i] = 1;
         }
     }
 
-    private void weightedUnion(int p, int q) {
-
-        int pRoot = findRoot(p);
-        int qRoot = findRoot(q);
-        if ( numNodes[p] < numNodes[q] ) {
-            entries[pRoot] = qRoot;
-            numNodes[qRoot] += numNodes[pRoot];
-        } else {
-            entries[qRoot] = pRoot;
-            numNodes[pRoot] += numNodes[qRoot];
-        }
+    private void union(int p, int q) {
+        entries[findRoot(p)] = findRoot(q);
     }
 
     private boolean connected(int p, int q) {
@@ -43,7 +31,6 @@ public class QuickUnionWPC {
 
     private int findRoot(int p) {
         while ( entries[p] != p ) {
-            entries[p] = entries[entries[p]];
             p = entries[p];
         }
         return p;
@@ -74,7 +61,7 @@ public class QuickUnionWPC {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Please enter number of elements.");
         int numElements = Integer.parseInt(scanner.next());
-        QuickUnionWPC quickUnion = new QuickUnionWPC(numElements);
+        QuickUnion quickUnion = new QuickUnion(numElements);
 
         System.out.println("Please enter the connections, separated by commas. Enter 'done' when finished.");
         while (scanner.hasNext("[0-9]{1,2},[0-9]*")) {
@@ -85,7 +72,7 @@ public class QuickUnionWPC {
 
             if ( quickUnion.connected(start, end)) System.out.println("Already connected.");
             else {
-                quickUnion.weightedUnion(start, end);
+                quickUnion.union(start, end);
             }
         }
 

@@ -1,4 +1,4 @@
-package com.pramodrao.algorithms;
+package com.pramodrao.algorithms.week1;
 
 import org.graphstream.graph.Graph;
 import org.graphstream.graph.Node;
@@ -9,19 +9,31 @@ import java.util.Scanner;
 /**
  * @author pramod.rao
  */
-public class QuickUnionPathCompression {
+public class QuickUnionWPC {
 
     private int[] entries;
+    private int[] numNodes;
 
-    QuickUnionPathCompression(int n) {
+    QuickUnionWPC(int n) {
         entries = new int[n];
+        numNodes = new int[n];
         for ( int i = 0; i < n; i++ ) {
             entries[i] = i;
+            numNodes[i] = 1;
         }
     }
 
-    private void union(int p, int q) {
-        entries[findRoot(p)] = findRoot(q);
+    private void weightedUnion(int p, int q) {
+
+        int pRoot = findRoot(p);
+        int qRoot = findRoot(q);
+        if ( numNodes[p] < numNodes[q] ) {
+            entries[pRoot] = qRoot;
+            numNodes[qRoot] += numNodes[pRoot];
+        } else {
+            entries[qRoot] = pRoot;
+            numNodes[pRoot] += numNodes[qRoot];
+        }
     }
 
     private boolean connected(int p, int q) {
@@ -62,7 +74,7 @@ public class QuickUnionPathCompression {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Please enter number of elements.");
         int numElements = Integer.parseInt(scanner.next());
-        QuickUnionPathCompression quickUnion = new QuickUnionPathCompression(numElements);
+        QuickUnionWPC quickUnion = new QuickUnionWPC(numElements);
 
         System.out.println("Please enter the connections, separated by commas. Enter 'done' when finished.");
         while (scanner.hasNext("[0-9]{1,2},[0-9]*")) {
@@ -73,7 +85,7 @@ public class QuickUnionPathCompression {
 
             if ( quickUnion.connected(start, end)) System.out.println("Already connected.");
             else {
-                quickUnion.union(start, end);
+                quickUnion.weightedUnion(start, end);
             }
         }
 

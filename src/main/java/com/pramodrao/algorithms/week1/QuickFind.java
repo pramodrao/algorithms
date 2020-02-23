@@ -1,4 +1,4 @@
-package com.pramodrao.algorithms;
+package com.pramodrao.algorithms.week1;
 
 import java.util.*;
 
