@@ -30,14 +30,14 @@ public class BinaryHeap {
         swap(0, N-1);
         tree[N-1] = null;
         N--;
-        sink(0);
+        sink(1);
     }
 
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < N; i++) {
-            sb.append(tree[i]).append(',');
+            sb.append(i+1).append(':').append(tree[i]).append(',');
         }
         return sb.toString().substring(0, sb.length()-1);
     }
@@ -46,11 +46,12 @@ public class BinaryHeap {
         while ( 2*k < N ) {
             int child1 = 2*k;
             int child2 = 2*k + 1;
-            if (tree[k].compareTo(tree[child1]) < 0) {
-                swap(k, child1);
+
+            if (tree[k-1].compareTo(tree[child1-1]) < 0 && tree[child1-1].compareTo(tree[child2-1]) > 0) {
+                swap(k-1, child1-1);
                 k = child1;
-            } else if (tree[k].compareTo(tree[child2]) < 0) {
-                swap(k, child2);
+            } else if (tree[k-1].compareTo(tree[child2-1]) < 0 && tree[child2-1].compareTo(tree[child1-1]) > 0) {
+                swap(k-1, child2-1);
                 k = child2;
             } else break;
         }
@@ -60,8 +61,6 @@ public class BinaryHeap {
 
         while ( k > 1 ) {
             int parent = k/2;
-            StdOut.println("k, Parent: " +k +", " +parent);
-
             if (tree[k-1].compareTo(tree[parent-1]) > 0) {
                 swap(k-1, parent-1);
                 k = parent;
@@ -89,24 +88,46 @@ public class BinaryHeap {
     }
 
     public static void main(String[] args) {
+//        BinaryHeap heap = new BinaryHeap();
+//        heap.insert(6);
+//        heap.insert(8);
+//        heap.insert(1);
+//        heap.insert(9);
+//        heap.insert(5);
+//        heap.insert(2);
+//        heap.insert(7);
+//        heap.insert(8);
+//        heap.insert(3);
+//        heap.insert(11);
+//        heap.insert(10);
+//        heap.insert(4);
+//        StdOut.println("Is the heap empty: " +heap.isEmpty());
+//        StdOut.println("Current Max Element Before Delete: " +heap.getMax());
+////        StdOut.println(heap.toString());
+//        heap.deleteMax();
+//        StdOut.println();
+////        StdOut.println(heap.toString());
+//        StdOut.println("Current Max Element After Delete: " +heap.getMax());
+//        heap.deleteMax();
+//        StdOut.println();
+////        StdOut.println(heap.toString());
+//        StdOut.println("Current Max Element After Delete: " +heap.getMax());
+//        heap.deleteMax();
+//        StdOut.println();
+////        StdOut.println(heap.toString());
+//        StdOut.println("Current Max Element After Delete: " +heap.getMax());
+//        heap.deleteMax();
+//        StdOut.println();
+////        StdOut.println(heap.toString());
+//        StdOut.println("Current Max Element After Delete: " +heap.getMax());
+
         BinaryHeap heap = new BinaryHeap();
-        heap.insert(6);
-        heap.insert(8);
+        heap.insert(3);
         heap.insert(1);
-        heap.insert(9);
+        heap.insert(6);
         heap.insert(5);
         heap.insert(2);
-        heap.insert(7);
-        heap.insert(8);
-        heap.insert(3);
-        heap.insert(11);
-        heap.insert(10);
         heap.insert(4);
-        StdOut.println("Is the heap empty: " +heap.isEmpty());
-        StdOut.println("Current Max Element Before Delete: " +heap.getMax());
         StdOut.println(heap.toString());
-        heap.deleteMax();
-        StdOut.println(heap.toString());
-        StdOut.println("Current Max Element After Delete: " +heap.getMax());
     }
 }
