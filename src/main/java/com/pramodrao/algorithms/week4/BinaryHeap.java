@@ -11,7 +11,7 @@ public class BinaryHeap {
     private int N = 0;
 
     public boolean isEmpty() {
-        if (null == tree || tree.length == 0) return true;
+        if (N == 0) return true;
         return false;
     }
 
@@ -27,6 +27,12 @@ public class BinaryHeap {
     }
 
     public void deleteMax() {
+        if (N == 1) {
+            tree[N-1] = null;
+            N--;
+            return;
+        }
+
         swap(0, N-1);
         tree[N-1] = null;
         N--;
@@ -129,5 +135,14 @@ public class BinaryHeap {
         heap.insert(2);
         heap.insert(4);
         StdOut.println(heap.toString());
+
+        StringBuilder sb = new StringBuilder();
+        int i = 0;
+        while ( !heap.isEmpty() ) {
+            StdOut.println("i: " +(i++));
+            sb.append(heap.getMax()).append(',');
+            heap.deleteMax();
+        }
+        StdOut.println(sb.substring(0, sb.length()-1));
     }
 }
