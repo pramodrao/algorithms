@@ -12,12 +12,10 @@ public class Board {
 
     // create a board from an n-by-n array of tiles,
     // where tiles[row][col] = tile at (row, col)
-    int dim;
-    int[][] tiles;
-    int zeroRow = -1;
-    int zeroCol = -1;
-
-    public int move = 0;
+    private int dim;
+    private int[][] tiles;
+    private int zeroRow = -1;
+    private int zeroCol = -1;
 
     public Board(int[][] boardTiles) {
         dim = boardTiles.length;

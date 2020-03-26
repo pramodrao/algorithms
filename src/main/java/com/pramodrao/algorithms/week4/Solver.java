@@ -30,9 +30,7 @@ public class Solver {
         }
     }
 
-
-    MinPQ queue = new MinPQ();
-    int numMoves = 0;
+    private int numMoves = 0;
     private Board lastBoard;
     private boolean isSolvable = false;
     private Stack<Board> solutionSet;
