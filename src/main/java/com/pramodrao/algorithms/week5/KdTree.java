@@ -1,5 +1,6 @@
 package com.pramodrao.algorithms.week5;
 
+
 import edu.princeton.cs.algs4.*;
 
 /**
@@ -16,6 +17,7 @@ public class KdTree {
      */
     public KdTree() {
         root = null;
+        size = 0;
     }
 
     /**
@@ -40,6 +42,7 @@ public class KdTree {
      */
     public void insert(Point2D p) {
         if (null == p) throw new IllegalArgumentException("Null Point.");
+        if ( contains(p)) return;
         root = insert(p, root, true);
     }
 
@@ -76,6 +79,7 @@ public class KdTree {
      */
     public boolean contains(Point2D p) {
         if (null == p) throw new IllegalArgumentException("Null Point.");
+        if (null == root) return false;
         return contains(p, root, root.isVertical);
     }
 
@@ -124,7 +128,7 @@ public class KdTree {
         return pointsInRange;
     }
 
-    public void range(Node n, RectHV rect, SET<Point2D> pointsInRange) {
+    private void range(Node n, RectHV rect, SET<Point2D> pointsInRange) {
         if (null == n) return;
 
         if (n.isVertical) {
@@ -160,13 +164,10 @@ public class KdTree {
     public Point2D nearest(Point2D p) {
         if (null == root) return null;
         if (null == p) throw new IllegalArgumentException("Null Point.");
-//        Node closest = root;
-//        nearest(p, root, closest);
         nearest(p, root);
         return closest.point;
     }
 
-//    private void nearest(Point2D p, Node current, Node closest) {
     private void nearest(Point2D p, Node current) {
         if (null == current) return;
         if (null == closest) closest = current;
@@ -180,19 +181,15 @@ public class KdTree {
         // Go towards the query point
         if (current.isVertical) {
             if (p.x() > current.point.x()) {
-//                nearest(p, current.right, closest);
                 nearest(p, current.right);
             } else {
                 nearest(p, current.left);
-//                nearest(p, current.left, closest);
             }
         } else {
             if (p.y() > current.point.y()) {
                 nearest(p, current.right);
-//                nearest(p, current.right, closest);
             } else {
                 nearest(p, current.left);
-//                nearest(p, current.left, closest);
             }
         }
     }
@@ -222,52 +219,5 @@ public class KdTree {
     }
 
     public static void main(String[] args) {
-        In in = new In("/Users/pramod.rao/Desktop/Personal/git/algorithms/src/main/resources/week5/input10.txt");
-        PointSET brute = new PointSET();
-        KdTree kdtree = new KdTree();
-        while (!in.isEmpty()) {
-            double x = in.readDouble();
-            double y = in.readDouble();
-            Point2D p = new Point2D(x, y);
-            kdtree.insert(p);
-            brute.insert(p);
-        }
-
-        // process nearest neighbor queries
-        StdDraw.enableDoubleBuffering();
-
-        double xL[] = new double[]{0.814453125,0.501953125,0.197265625,0.134765625,0.58984375,0.6875,0.919921875,0.724609375,0.17578125};
-        double yL[] = new double[]{0.953125,0.900390625,0.701171875,0.44921875,0.189453125,0.412109375,0.802734375,0.83203125,1.0};
-
-        while (true) {
-
-            // the location (x, y) of the mouse
-            double x = StdDraw.mouseX();
-            double y = StdDraw.mouseY();
-//            StdOut.println(x +"," +y);
-//            double x = 0.1d;
-//            double y = 0.8d;
-            Point2D query = new Point2D(x, y);
-
-            // draw all of the points
-            StdDraw.clear();
-            StdDraw.setPenColor(StdDraw.BLACK);
-            StdDraw.setPenRadius(0.01);
-            kdtree.draw();
-            brute.draw();
-
-            // draw in red the nearest neighbor (using brute-force algorithm)
-            StdDraw.setPenRadius(0.03);
-            StdDraw.setPenColor(StdDraw.RED);
-            Point2D nearest = brute.nearest(query);
-            nearest.draw();
-            StdDraw.setPenRadius(0.02);
-
-            // draw in blue the nearest neighbor (using kd-tree algorithm)
-            StdDraw.setPenColor(StdDraw.BLUE);
-            kdtree.nearest(query).draw();
-            StdDraw.show();
-            StdDraw.pause(500);
-        }
     }
 }

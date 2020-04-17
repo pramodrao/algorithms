@@ -1,15 +1,16 @@
 package com.pramodrao.algorithms.week5;
 
-import edu.princeton.cs.algs4.*;
-
-import java.util.Comparator;
+import edu.princeton.cs.algs4.Point2D;
+import edu.princeton.cs.algs4.RectHV;
+import edu.princeton.cs.algs4.SET;
+import edu.princeton.cs.algs4.StdDraw;
 
 /**
  * @author pramod.rao
  */
 public class PointSET {
 
-    private SET<Point2D> pointL;
+    final private SET<Point2D> pointL;
 
     /**
      * construct an empty set of points
@@ -102,18 +103,5 @@ public class PointSET {
     }
 
     public static void main(String[] args) {
-        In in = new In("/Users/pramod.rao/Desktop/Personal/git/algorithms/src/main/resources/week5/input10.txt");
-        PointSET ps = new PointSET();
-//        int n = in.readInt();
-        while ( in.hasNextLine()) {
-            try {
-                double x = in.readDouble();
-                double y = in.readDouble();
-                Point2D point = new Point2D(x, y);
-                ps.insert(point);
-            } catch (Exception e){}
-        }
-
-        ps.draw();
     }
 }
